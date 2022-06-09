@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add-page-layout": {
+      "description": "Add page layout to component",
+      "factory": "./ng-add-page-layout/index#pageLayoutComponentGenerator",
+      "schema": "./ng-add-page-layout/schema.json"
+    }
+  }
+}

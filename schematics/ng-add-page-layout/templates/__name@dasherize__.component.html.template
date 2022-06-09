@@ -1,0 +1,4 @@
+<div (click)="onBackClick()">Back button</div>
+<div>Title</div>
+<div>Description</div>
+<ng-content></ng-content>
