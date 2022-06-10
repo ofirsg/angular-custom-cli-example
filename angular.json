@@ -1,7 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "ng-custom-cli"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
   },
   "version": 1,
   "newProjectRoot": "projects",

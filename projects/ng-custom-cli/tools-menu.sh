@@ -33,7 +33,7 @@ menu() {
 ngAddPageLayout() {
 echo "  add page layout
 "
-schematics .:ng-add-page-layout
+ng g ng-custom-cli:apl
 }
 
 menu

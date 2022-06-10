@@ -44,3 +44,5 @@ testem.log
 .DS_Store
 Thumbs.db
 /.angular/
+/projects/ng-custom-cli-example-app/node_modules/
+/projects/ng-custom-cl/node_modules/

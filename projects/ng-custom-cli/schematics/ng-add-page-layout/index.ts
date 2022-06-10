@@ -2,18 +2,17 @@ import {
   apply,
   applyTemplates,
   chain,
-  externalSchematic,
   MergeStrategy,
   mergeWith,
   move,
-  Rule,
+  Rule, Tree,
   url
 } from "@angular-devkit/schematics";
 import { normalize, strings } from "@angular-devkit/core";
 import { PageLayoutComponentSchema } from "./page-layout.interfaces";
 
 export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema): Rule {
-  return () => {
+  return (tree: Tree) => {
     if(!options.path || !options.name){
       console.log('---------------------------------------------------');
       console.log('Missing options!');
@@ -21,8 +20,16 @@ export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema)
       return;
     }
 
+    // const bla = tree.exists(options.path) ? tree.get(options.path) : null;
+    const bla = tree.exists(options.path);
+    console.log('################################################################');
+    console.debug(tree.getDir('projects')?.subdirs);
+    // console.log(bla?.content?.toString());
+    console.log(bla)
+    console.log('################################################################');
+
     const templateSource = apply(
-      url('./templates'), [
+      url('./files'), [
         applyTemplates({
           classify: strings.classify,
           dasherize: strings.dasherize,
@@ -35,10 +42,6 @@ export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema)
     // TODO: add the new component by path
 
     return chain([
-      externalSchematic(
-        '@schematics/angular', 'component',
-        { ...options, path: `${options.path}/page-layout` }
-      ),
       mergeWith(templateSource, MergeStrategy.Overwrite)
     ]);
   }

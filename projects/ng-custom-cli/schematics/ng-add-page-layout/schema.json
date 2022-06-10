@@ -5,15 +5,15 @@
   "type": "object",
   "properties": {
     "name": {
+      "x-prompt": "What is the name of the component?",
       "description": "The name of the component",
       "type": "string"
     },
     "path": {
       "x-prompt": "What is the path of the component?",
       "type": "string",
-      "format": "path",
-      "description": ""
+      "description": "The path to add content"
     }
   },
-  "required": ["name", "path"]
+  "required": []
 }
