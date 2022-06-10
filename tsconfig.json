@@ -6,8 +6,6 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -18,14 +16,8 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "es2020",
-    "paths": {
-      "ng-custom-cli": [
-        "dist/ng-custom-cli/ng-custom-cli",
-        "dist/ng-custom-cli"
-      ]
-    },
     "lib": [
-      "es2020",
+      "es2018",
       "dom"
     ]
   },

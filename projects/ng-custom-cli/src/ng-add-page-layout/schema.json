@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "page-layout-component",
+  "$id": "PageLayoutComponent",
   "title": "Page Layout Component Schema",
   "type": "object",
   "properties": {
