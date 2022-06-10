@@ -1,10 +1,6 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "ng-add": {
-      "description": "Add my library to the project.",
-      "factory": "./ng-add/index#ngAdd"
-    },
     "ng-add-page-layout": {
       "description": "Add page layout to component",
       "factory": "./ng-add-page-layout/index#pageLayoutComponentGenerator",
