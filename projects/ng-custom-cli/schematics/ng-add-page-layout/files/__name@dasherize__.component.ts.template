@@ -6,9 +6,13 @@ import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core
   styleUrls: ['./<%= dasherize(name) %>.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class <%= classify(name) %> implements OnInit {
-  @Input() pageContext: string;
+export class <%= classify(className) %> implements OnInit {
+  @Input() pageContext: string = '';
   public readonly userPrefKey = '<%= dasherize(name) %>'; // TODO: edit key
+
+  public ngOnInit(): void {
+
+  }
 
   public onBackClick(): void {
     // TODO: handle click

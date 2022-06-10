@@ -10,7 +10,7 @@
       "type": "string"
     },
     "path": {
-      "x-prompt": "What is the path of the component?",
+      "x-prompt": "What is the path of the component html to add layout?",
       "type": "string",
       "description": "The path to add content"
     }

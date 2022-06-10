@@ -27,6 +27,8 @@ export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema)
       return;
     }
 
+    const className = options.name.endsWith('Component') ? options.name : `${options.name}Component`;
+
     const pathParts: string[] = options.path.split('/');
     const newFolderPath: string = pathParts.slice(0, pathParts.length - 1).join('/');
 
@@ -35,7 +37,8 @@ export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema)
         applyTemplates({
           classify: strings.classify,
           dasherize: strings.dasherize,
-          name: options.name
+          name: options.name,
+          className
         }),
         move(normalize(`/${newFolderPath}/${strings.dasherize(options.name)}`))
       ]
@@ -62,11 +65,36 @@ export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema)
       const compContent: string = tree.get(compFilePath)?.content.toString() ?? '';
 
       // can be done better with ast helpers such ts-morph
-      const start = compContent.indexOf('{', compContent.indexOf('class'));
+      const start = compContent.indexOf('{', compContent.indexOf('class') + 1);
       const newCompContent = `${compContent.substring(0, start + 1)}
    public pageContext = 'pageContext'; // TODO: fix
   ${compContent.substring(start + 1)}`;
 
+      const pathParts = compFilePath.split('/');
+      pathParts.pop();
+      let modulePath: string | null = null;
+
+      while (pathParts.length > 0 && !modulePath) {
+        const subFiles = tree.getDir(pathParts.join('/')).subfiles;
+        const moduleFilePath = subFiles.find(f => f.includes('.module'));
+
+        if (moduleFilePath) {
+          modulePath = moduleFilePath;
+          console.log('########################################');
+          console.log(moduleFilePath);
+          console.log('########################################');
+        }
+      }
+
+      if (modulePath) {
+        const moduleFileContent = tree.get(modulePath)?.content.toString() ?? '';
+        const moduleStart = moduleFileContent.indexOf('[', compContent.indexOf('declarations') + 1);
+        const className = options.name.endsWith('Component') ? options.name : `${options.name}Component`;
+        const newModuleContent = `${moduleFileContent.substring(0, moduleStart + 1)}
+   ${className},
+  ${moduleFileContent.substring(start + 1)}`;
+        tree.overwrite(modulePath, newModuleContent);
+      }
       tree.overwrite(compFilePath, newCompContent);
       tree.overwrite(options.path, newHtmlContent);
 
