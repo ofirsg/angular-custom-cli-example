@@ -32,6 +32,30 @@ export function pageLayoutComponentGenerator(options: PageLayoutComponentSchema)
     const pathParts: string[] = options.path.split('/');
     const newFolderPath: string = pathParts.slice(0, pathParts.length - 1).join('/');
 
+    const templateSource = apply(
+      url('./files'), [
+        applyTemplates({
+          classify: strings.classify,
+          dasherize: strings.dasherize,
+          name: options.name,
+          className
+        }),
+        move(normalize(`/${newFolderPath}/${strings.dasherize(options.name)}`))
+      ]
+    );
+
+    return chain([
+      // externalSchematic('@schematics/angular', 'component', options),
+      mergeWith(templateSource, MergeStrategy.Overwrite),
+      (tree: Tree, _context: SchematicContext) => {
+        updateHtmlFile(tree);
+        updateComponentFile(tree);
+        updateModuleFile(tree);
+
+        return tree;
+      },
+    ]);
+
     function updateComponentFile(tree: Tree): void {
       const compFilePath = options.path.replace('html', 'ts');
       const compContent: string = tree.get(compFilePath)?.content.toString() ?? '';
@@ -86,28 +110,5 @@ ${moduleFileContent.substring(0, moduleStart + 1)}
         tree.overwrite(modulePath, newModuleContent);
       }
     }
-
-    const templateSource = apply(
-      url('./files'), [
-        applyTemplates({
-          classify: strings.classify,
-          dasherize: strings.dasherize,
-          name: options.name,
-          className
-        }),
-        move(normalize(`/${newFolderPath}/${strings.dasherize(options.name)}`))
-      ]
-    );
-
-    return chain([
-      mergeWith(templateSource, MergeStrategy.Overwrite),
-      (tree: Tree, _context: SchematicContext) => {
-        updateHtmlFile(tree);
-        updateComponentFile(tree);
-        updateModuleFile(tree);
-
-        return tree;
-      },
-    ]);
   }
 }
